@@ -1,0 +1,93 @@
+{% include 'admin/header.html' %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        Información de la ropa
+                    </div>
+                    <div class="card-body">
+                        <form action="/admin/clothes/guardar" method="post" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="txtName" class="form-label">Nombre de la prenda:</label>
+                                <input type="text"
+                                class="form-control" name="txtName" id="txtName" aria-describedby="helpId" placeholder="Escribe el nombre...">
+                            </div>
+                            <div class="mb-3">
+                                <label for="txtBrand" class="form-label">Marca de la prenda:</label>
+                                <input type="text"
+                                    class="form-control" name="txtBrand" id="txtBrand" aria-describedby="helpId" placeholder="Escribe el nombre...">
+                            </div>
+                            <div class="mb-3">
+                                <label for="txtPrice" class="form-label">Precio de la prenda:</label>
+                                <input type="text"
+                                    class="form-control" name="txtPrice" id="txtPrice" aria-describedby="helpId" placeholder="Escribe el nombre...">
+                            </div>
+                            <div class="mb-3">
+                                <label for="txtImage" class="form-label">Imagen:</label>
+                                <input type="file"
+                                    class="form-control" name="txtImage" id="txtImage" aria-describedby="helpId" placeholder="Sube una imagen...">
+                            </div>
+                            <div class="mb-3">
+                                <label for="txtURL" class="form-label">URL:</label>
+                                <input type="text"
+                                    class="form-control" name="txtURL" id="txtURL" aria-describedby="helpId" placeholder="Escribre la URL...">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Agregar</button>
+
+                        </form>
+                    </div>
+                    <div class="card-footer text-muted">
+                        Footer
+                    </div>
+                 </div>
+            </div>
+            <div class="col-md-8">
+                
+                <div class="table-responsive">
+                    <table class="table table-primary">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Marca</th>
+                                <th scope="col">Precio</th>
+                                <th scope="col">Imagen</th>
+                                <th scope="col">URL</th>
+                                <th scope="col">Acciones</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for clothe in clothes %}
+                            <tr class="">
+                                <td scope="row">{{clothe[0]}}</td>
+                                <td>{{clothe[1]}}</td>
+                                <td>{{clothe[2]}}</td>
+                                <td>{{clothe[3]}}</td>
+                                <td><img width="60" src="/img/{{clothe[4]}}" class="img-fluid" alt=""></td>
+                                <td>{{clothe[5]}}</td>
+                                <td>
+                                    <form action="/admin/clothes/borrar" method="POST">
+                                        <input type="text" name="txtID" id="txtID">
+                                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                                    </form>
+
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                
+
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+{% include 'admin/footer.html' %}
