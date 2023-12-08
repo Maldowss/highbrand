@@ -1,6 +1,21 @@
 {% include 'web/header.html' %}
-
-    Clothes Section
-    
+<div class="container">
+    <div class="row">
+        {% for clothe in clothes %}
+        <div class="col-md-3">
+            <div class="card">
+                <img src="/img/{{ clothe[4] }}" alt="Title" class="card-img-top">
+                <div class="card-body">
+                    <h3 class="card-title">{{ clothe[1] }}</h4>
+                    <p class="card-text">Marca: {{clothe[2]}} </p><p class="card_text">Precio: {{ clothe[3] }}€</p>
+                    <p class="card-text">
+                        <a id="" class="btn btn-primary" href="{{ clothe[5] }}" role="button">URL</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>    
 
 {% include 'web/footer.html' %}

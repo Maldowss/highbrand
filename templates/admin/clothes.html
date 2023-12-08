@@ -1,12 +1,9 @@
 {% include 'admin/header.html' %}
 
-    <div class="container">
+    <div class="container mt-5" style="min-height: 63.9vh;">
         <div class="row">
             <div class="col-md-4">
                 <div class="card">
-                    <div class="card-header">
-                        Información de la ropa
-                    </div>
                     <div class="card-body">
                         <form action="/admin/clothes/guardar" method="post" enctype="multipart/form-data">
                             <div class="mb-3">
@@ -39,9 +36,6 @@
 
                         </form>
                     </div>
-                    <div class="card-footer text-muted">
-                        Footer
-                    </div>
                  </div>
             </div>
             <div class="col-md-8">
@@ -71,7 +65,7 @@
                                 <td>{{clothe[5]}}</td>
                                 <td>
                                     <form action="/admin/clothes/borrar" method="POST">
-                                        <input type="text" name="txtID" id="txtID">
+                                        <input type="hidden" value="{{clothe[0]}}" name="txtID" id="txtID">
                                             <button type="submit" class="btn btn-danger">Eliminar</button>
                                     </form>
 
