@@ -10,6 +10,15 @@ def query_clothes():
     conexion_db.close()
     return clothes
 
+def search_clothes(search):
+    conexion_db= conexion()
+    clothes = []
+    with conexion_db.cursor() as cursor:
+        cursor.execute("SELECT * FROM clothes WHERE marca LIKE %s", (search))
+        clothes = cursor.fetchall()
+        conexion_db.close()
+    return clothes
+
 def insert_clothe(name, brand, price, image, url):
     conexion_db = conexion()
     with conexion_db.cursor() as cursor:
@@ -35,6 +44,15 @@ def delete_image_directory(id):
         if os.path.exists("templates/web/img/"+str(clothe[0][0])):
             os.unlink("templates/web/img/" + str(clothe[0][0]))
 
+    conexion_db.commit()
+    conexion_db.close()
+
+def update_clothe(id, name, brand, price, image, url):
+    delete_image_directory(id)
+    conexion_db = conexion()
+    with conexion_db.cursor() as cursor:
+        cursor.execute("UPDATE clothes SET nombre=%s, marca=%s, precio=%s, imagen=%s, url=%s WHERE id=%s",
+                       (name, brand, price, image, url, id))
     conexion_db.commit()
     conexion_db.close()
 

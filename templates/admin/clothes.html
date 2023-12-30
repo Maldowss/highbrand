@@ -2,7 +2,7 @@
 
     <div class="container mt-5" style="min-height: 63.9vh;">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="card">
                     <div class="card-body">
                         <form action="/admin/clothes/guardar" method="post" enctype="multipart/form-data">
@@ -32,13 +32,13 @@
                                     class="form-control" name="txtURL" id="txtURL" aria-describedby="helpId" placeholder="Escribre la URL...">
                             </div>
 
-                            <button type="submit" class="btn btn-primary">Agregar</button>
+                            <button type="submit" class="btn btn-success">Agregar</button>
 
                         </form>
                     </div>
                  </div>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-9">
                 
                 <div class="table-responsive">
                     <table class="table table-primary">
@@ -64,6 +64,11 @@
                                 <td><img width="60" src="/img/{{clothe[4]}}" class="img-fluid" alt=""></td>
                                 <td>{{clothe[5]}}</td>
                                 <td>
+                                    <form action="edit" method="POST">
+                                        <input type="hidden" value="{{clothe[0]}}" name="txtID" id="txtID">
+                                            <button type="submit" class="btn btn-primary">Editarlo</button>
+                                    </form>
+
                                     <form action="/admin/clothes/borrar" method="POST">
                                         <input type="hidden" value="{{clothe[0]}}" name="txtID" id="txtID">
                                             <button type="submit" class="btn btn-danger">Eliminar</button>

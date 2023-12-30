@@ -29,7 +29,13 @@ def images(image):
 def clothes():
     clothes = clothes_controller.query_clothes()
     print(clothes)
-    return render_template('web/clothes.html', clothes=clothes) 
+    return render_template('web/clothes.html', clothes=clothes)
+
+@app.route('/clothes/buscar', methods=['POST'])
+def search_clothes():
+    search = request.form['txtSearch']
+    clothes = clothes_controller.search_clothes(search)
+    return render_template('web/clothes.html', clothes=clothes)
 
 @app.route('/info')
 def info():
@@ -41,6 +47,37 @@ def admin_index():
         return redirect("/admin/login")
     
     return render_template('admin/index.html')
+
+@app.route('/admin/edit', methods=['POST'])
+def admin_edit():
+    if not session.get('login'):
+        return redirect("/admin/login")
+    
+    _id=request.form['txtID']
+    
+    return render_template("admin/edit.html", ID=_id)
+
+@app.route('/admin/edit/actualizar', methods=['POST'])
+def admin_edit_update():
+    if not session.get('login'):
+        return redirect("/admin/login")
+    
+    _id=request.form['txtID']
+    _name=request.form['txtName']
+    _brand=request.form['txtBrand']
+    _price=request.form['txtPrice']
+    _image=request.files['txtImage']
+    _url=request.form['txtURL']
+
+    time= datetime.now()
+    actualHour=time.strftime('%Y%H%S')
+    if _image.filename!="":
+        newName=actualHour+"_"+_image.filename
+        _image.save("templates/web/img/"+newName)
+
+    clothes_controller.update_clothe(_id, _name, _brand, _price, newName, _url)
+
+    return redirect('/admin/clothes')
 
 @app.route('/admin/login')
 def admin_login():
