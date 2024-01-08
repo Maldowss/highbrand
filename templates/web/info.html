@@ -68,30 +68,37 @@
     </div>
 </div>
 
+<section class="text-white py-4 mt-5 w-75 m-auto bopcy">
+    <h2 class="text-center mb-4">Déjanos tu comentario</h2>
+    <div class="container px-5">
+        <div class="col-md-12">
+            <form action="/info/comentar" method="POST" role="form" class="" >
+                <textarea name="txtComment" id="txtComment" rows="5" class="w-100 border-3" placeholder="Escribe aquí..."></textarea>
+                <button type="submit" class="btn btn-primary mb-2">Enviar</button>
+            </form>
+        </div>
+    </div>
+
+</section>
+
 <section class="text-white py-5 mt-5 w-75 m-auto bopcy">
     <div class="container ">
-        <h2 class="text-center mb-4">Lo que opinan nuestros clientes</h2>
+        <h2 class="text-center mb-4">Lo que opinan nuestros usuarios</h2>
         <div class="row">
-            <div class="col-md-6">
+            {% if comments%}
+            {%for comment in comments%}
+            <div class="col-md-6 mb-3">
                 <div class="card">
                     <div class="card-body">
                         <blockquote class="blockquote mb-0">
-                            <p>"¡Increíble calidad y atención al cliente! Estoy muy satisfecho con mi compra."</p>
-                            <footer class="blockquote-footer">Carlos González</footer>
+                            <p>"{{comment[2]}}"</p>
+                            <footer class="blockquote-footer">{{comment[1]}}</footer>
                         </blockquote>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <blockquote class="blockquote mb-0">
-                            <p>"¡Me encanata la facilidad para encontrar todo y en poco tiempo!"</p>
-                            <footer class="blockquote-footer">Patricia Rojas</footer>
-                        </blockquote>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
+            {% endif%}
         </div>
     </div>
 </section>

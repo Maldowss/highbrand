@@ -53,7 +53,21 @@ def search_clothes():
 
 @app.route('/info')
 def info():
+    comments=clothes_controller.query_comments()#preguntar a chat gpt como pillar 4 valores random del array
+
+    return render_template('web/info.html', comments=comments)
+
+@app.route('/info/comentar', methods=['POST'])
+def comment():
+    if not session.get('login'):
+        return render_template("admin/login.html", message="Debes iniciar sesión para comentar")
+    
+    text=request.form['txtComment']
+    
+    clothes_controller.insert_comment(session['user'], text, session['id_user'])
+    
     return render_template('web/info.html')
+
 
 @app.route('/admin/')
 def admin_index():
@@ -225,8 +239,6 @@ def admin_clothe_save():
     if not all((request.form['txtName'], request.form['txtBrand'], request.form['txtPrice'], request.files['txtImage'], request.form['txtURL'])):
         return redirect('/admin/clothes/control')
 
-
-
     time= datetime.now()
     actualHour=time.strftime('%Y%H%S')
 
@@ -244,6 +256,35 @@ def admin_clothe_delete():
     _id=request.form['txtID']
     clothes_controller.delete_clothe(_id)
     return redirect('/admin/clothes')
+
+@app.route('/admin/info')
+def admmin_info():
+    if not session.get('login'):
+        return redirect("/admin/login")
+    
+    
+    user_info=clothes_controller.query_info_user(session['id_user'])
+   
+    return render_template('/admin/userInfo.html', info=user_info)
+
+@app.route('/admin/info/user_info')
+def update_user_info():
+    if not session.get('login'):
+        return redirect("/admin/login")
+    
+    _oldName=request.form['name']
+    _oldLast_name=request.form['last_name']
+    _oldEmail=request.form['email']
+    _oldTlf=request.form['tlf']
+    
+    _name=request.form['name'] if request.form['name'] else _oldName
+    _last_name=request.form['last_name'] if request.form['last_name'] else _oldLast_name
+    _email=request.form['email'] if request.form['email'] else _oldEmail
+    _tlf=request.form['tlf'] if request.form['tlf'] else _oldTlf
+
+    clothes_controller.update_user_info()
+    
+    return redirect('/admin/info')
 
 #Con esto sabremos si la aplicación está lista, de ser asi activa el modo debug
 #de esta manera, si actualizamos index, también actualice

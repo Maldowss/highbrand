@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Login Administrator</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- CSS propio -->
+  <link  rel="stylesheet" href="{{ url_for('static', filename='css/adminstyle.css')}}" >
+
+</head>
+
+
+  
+
+<body class="body-info">
+
+    <nav class="navbar navbar-expand navbar-dark py-4 d-flex justify-content-center nav-admin">
+        <div class="nav navbar-nav">
+            <a class="nav-item nav-link active" href="/" aria-current="page">Home</a>
+            <a class="nav-item nav-link" href="clothes">Administration</a>
+            <a class="nav-item nav-link" href="/admin/info">User info</a>
+            <a class="nav-item nav-link" href="/admin/logout">Log Out</a>
+        </div>
+        </nav>
+
+    <div class="row mt-5 row-user-info">
+        <!-- Sección de datos anteriores -->
+        <div class="container mt-0 previous-data-container-info col-lg-4">
+            <h2 class="form-title-info text-white">Datos de {{info[1]}}: </h2>
+            <p><strong>Name:</strong> {{info[2]}}</p>
+            <p><strong>Last Name:</strong> {{info[3]}}</p>
+            <p><strong>Email:</strong> {{info[4]}}</p>
+            <p><strong>Phone Number:</strong> {{info[5]}}</p>
+            <div class="position-relative"><a class="position-absolute start-0  fw-bold" href="/admin/daccount">Delete Account</a></div>
+        </div>
+
+        <div class="container mt-0 form-container-info col-lg-8">
+            <h2 class="form-title-info-info">Complete Your Profile</h2>
+            <form>
+                <div class="form-group-info">
+                    <label for="name" class="form-label-info">Name</label>
+                    <input type="text" class="form-control-info" id="name" name="name" value="{{info[2]}}" required>
+                </div>
+
+                <div class="form-group-info">
+                    <label for="last_name" class="form-label-info">Last Name</label>
+                    <input type="text" class="form-control-info" id="last_name" name="last_name" value="{{info[3]}}" required>
+                </div>
+
+                <div class="form-group-info">
+                    <label for="email" class="form-label-info">Email</label>
+                    <input type="email" class="form-control-info" id="email" name="email" value="{{info[4]}}" required>
+                </div>
+
+                <div class="form-group-info">
+                    <label for="tlf" class="form-label-info">Phone Number</label>
+                    <input type="tel" class="form-control-info" id="tlf" name="tlf" value="{{info[5]}}" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-submit-info">Save Profile</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row mt-5 row-user-info">
+        <h1 class="h3 mb-3 font-weight-normal text-center">Your things</h1>
+            <p class="text-center">Choose one to check your comments or your favorites clothes</p>
+        <div class="container col-md-3">
+            <form class="form-signin position-relative" action="/admin/">
+              
+              <button type="submit" class="btn btn-danger mb-2 position-absolute top-0 start-50 translate-middle">Comments</button>
+            </form>
+          </div>
+          <div class="container col-md-3 position-relative">
+          <form action="/admin/">
+            <button type="submit" class="btn btn-secondary mb-2 position-absolute top-0 start-50 translate-middle">Favorites</button>
+        </div>
+        </form>
+    </div>
+
+
+
+    <!-- <div class="row">
+        {% for clothe, user in combined_data %}
+        <div class="col-md-3 mt-3">
+            <div class="card">
+                <img src="/img/{{ clothe[4] }}" alt="Title" class="card-img-top">
+                <div class="card-body">
+                    <h3 class="card-title">{{ clothe[1] }}</h3>
+                    <p class="card-text">Marca: {{clothe[2]}} </p><p class="card_text">Precio: {{ clothe[3] }}€</p>
+                    <p class="card-text">
+                        <a id="" class="btn btn-primary" href="{{ clothe[5] }}" role="button">URL</a>
+                    </p>
+                    <p class="card-text">Usuario: {{ user[0]}}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div> -->
+    
+
+    {% include 'admin/footer.html' %}

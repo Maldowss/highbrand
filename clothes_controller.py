@@ -110,6 +110,14 @@ def query_user(id):
     conexion_db.close()
     return user
 
+def query_info_user(id):
+    conexion_db= conexion()
+    with conexion_db.cursor() as cursor:
+        cursor.execute("SELECT * FROM user_info where user_id= %s", (id))
+        user = cursor.fetchone()
+    conexion_db.close()
+    return user
+
 def check_user_existence(user):
     conexion_db= conexion()
     with conexion_db.cursor() as cursor:
@@ -120,3 +128,20 @@ def check_user_existence(user):
         return False
     elif len(cUser) > 0:
         return True
+    
+def insert_comment(name, text, _id_user):
+    conexion_db = conexion()
+    with conexion_db.cursor() as cursor:
+        cursor.execute("INSERT INTO comments(name, text, user_id) VALUES (%s, %s, %s)",
+                       (name, text, _id_user))
+    conexion_db.commit()
+    conexion_db.close()
+
+def query_comments():
+    conexion_db= conexion()
+    comments = []
+    with conexion_db.cursor() as cursor:
+        cursor.execute('SELECT * FROM comments')
+        comments = cursor.fetchall()
+    conexion_db.close()
+    return comments
