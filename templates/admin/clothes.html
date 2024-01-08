@@ -1,9 +1,48 @@
-{% include 'admin/header.html' %}
+<!doctype html>
+<html lang="en">
 
-    <div class="container mt-5" style="min-height: 63.9vh;">
+<head>
+  <title>Login Administrator</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <!-- CSS propio -->
+  <link  rel="stylesheet" href="{{ url_for('static', filename='css/adminstyle.css')}}" >
+
+</head>
+
+<body class="body-admin">
+  <nav class="navbar navbar-expand navbar-dark py-4 d-flex justify-content-center nav-admin">
+    <div class="nav navbar-nav">
+        <a class="nav-item nav-link active" href="/" aria-current="page">Home</a>
+        <a class="nav-item nav-link" href="clothes">Administration</a>
+        <a class="nav-item nav-link" href="/admin/logout">Log Out</a>
+        <!-- <a class="nav-item nav-link" href="/admin/logout">Delete Account</a> -->
+    </div>
+</nav>
+
+
+    <div class="container mt-5 container-video">
         <div class="row">
             <div class="col-md-3">
                 <div class="card">
+                    <p class="text-center aligb.middle pt-3">Añadir una nueva prenda</p>
+                    {% if message%}
+                          
+                          <div
+                          class="alert alert-danger"
+                          role="alert"
+                          >
+                          <strong>{{ message }}</strong>
+                        </div>
+                          
+                        {% endif%}
                     <div class="card-body">
                         <form action="/admin/clothes/guardar" method="post" enctype="multipart/form-data">
                             <div class="mb-3">
@@ -44,29 +83,38 @@
                     <table class="table table-primary">
                         <thead>
                             <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Marca</th>
-                                <th scope="col">Precio</th>
-                                <th scope="col">Imagen</th>
-                                <th scope="col">URL</th>
-                                <th scope="col">Acciones</th>
+                                <th class="text-center" scope="col">ID</th>
+                                <th class="text-center" scope="col">Nombre</th>
+                                <th class="text-center" scope="col">Marca</th>
+                                <th class="text-center" scope="col">Precio</th>
+                                <th class="text-center" scope="col">Imagen</th>
+                                <th class="text-center" scope="col">URL</th>
+                                <th class="text-center" scope="col">Acciones</th>
 
                             </tr>
                         </thead>
                         <tbody>
                             {% for clothe in clothes %}
                             <tr class="">
-                                <td scope="row">{{clothe[0]}}</td>
-                                <td>{{clothe[1]}}</td>
-                                <td>{{clothe[2]}}</td>
-                                <td>{{clothe[3]}}</td>
-                                <td><img width="60" src="/img/{{clothe[4]}}" class="img-fluid" alt=""></td>
-                                <td>{{clothe[5]}}</td>
-                                <td>
+                                <td scope="row" class="align-middle text-center">{{clothe[0]}}</td>
+                                <td class="align-middle text-center">{{clothe[1]}}</td>
+                                <td class="align-middle text-center">{{clothe[2]}}</td>
+                                <td class="align-middle text-center">{{clothe[3]}}</td>
+                                <td class="align-middle text-center"><img width="60" src="/img/{{clothe[4]}}" class="img-fluid" alt=""></td>
+                                <td class="align-middle text-center">
+                                    <a href="{{clothe[5]}}">
+                                        <button type="button" class="btn btn-info">URL</button>
+                                    </a>
+                                </td>
+                                <td class="text-center">
                                     <form action="edit" method="POST">
                                         <input type="hidden" value="{{clothe[0]}}" name="txtID" id="txtID">
-                                            <button type="submit" class="btn btn-primary">Editarlo</button>
+                                        <input type="hidden" value="{{clothe[1]}}" name="txtName" id="txtName">
+                                        <input type="hidden" value="{{clothe[2]}}" name="txtBrand" id="txtBrand">
+                                        <input type="hidden" value="{{clothe[3]}}" name="txtPrice" id="txtPrice">
+                                        <input type="hidden" value="{{clothe[4]}}" name="txtImage" id="txtImage">
+                                        <input type="hidden" value="{{clothe[5]}}" name="txtUrl" id="txtUrl">
+                                            <button type="submit" class="btn btn-primary button-edit">Editar</button>
                                     </form>
 
                                     <form action="/admin/clothes/borrar" method="POST">
@@ -81,9 +129,10 @@
                     </table>
                 </div>
                 
+                
 
             </div>
-            
+            <div class="position-relative"><a class="position-absolute end-0  fw-bold" href="/admin/daccount">Delete Account</a></div>
         </div>
     </div>
 

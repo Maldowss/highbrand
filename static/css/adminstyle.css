@@ -1,0 +1,21 @@
+.button-edit {
+    width: 82px;
+}
+
+.container-video {
+    min-height: 63.9vh;
+}
+
+.footer {
+    margin-top: 2.76rem;
+    background-color: #1f2225;
+    color: #ffffff;
+}
+
+.nav-admin{
+    background-color: #1f2225;
+}
+
+.body-admin {
+    background: linear-gradient(to bottom, rgb(61, 58, 58), rgb(131, 126, 134), rgb(196, 172, 107));
+}

@@ -4,23 +4,34 @@
         <div class="col-md-3">
         <form class="navbar-form navbar-left" action="/clothes/buscar" method="POST">
             <div class="form-group">
-              <input type="text" class="form-control" name="txtSearch" id="txtSearch" placeholder="Search">             
+              <input type="text" class="form-control" name="txtSearch" id="txtSearch" placeholder="Insert the brand...">             
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <div class="clothes-form">
+                    <div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                    {% if message%}
+                    <div class="alert" role="alert">
+                        <strong>{{ message }}</strong> 
+                    </div>
+                    {% endif%}
+            </div>
+           
             
           </form>
         </div>
         <div class="row">
-            {% for clothe in clothes %}
+            {% for clothe, user in combined_data %}
             <div class="col-md-3 mt-3">
                 <div class="card">
                     <img src="/img/{{ clothe[4] }}" alt="Title" class="card-img-top">
                     <div class="card-body">
-                        <h3 class="card-title">{{ clothe[1] }}</h4>
+                        <h3 class="card-title">{{ clothe[1] }}</h3>
                         <p class="card-text">Marca: {{clothe[2]}} </p><p class="card_text">Precio: {{ clothe[3] }}€</p>
                         <p class="card-text">
                             <a id="" class="btn btn-primary" href="{{ clothe[5] }}" role="button">URL</a>
                         </p>
+                        <p class="card-text">Usuario: {{ user[0]}}</p>
                     </div>
                 </div>
             </div>

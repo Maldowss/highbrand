@@ -10,6 +10,15 @@ def query_clothes():
     conexion_db.close()
     return clothes
 
+def query_clothes_admin(id):
+    conexion_db= conexion()
+    clothes = []
+    with conexion_db.cursor() as cursor:
+        cursor.execute("SELECT * FROM clothes where user_id= %s", (id))
+        clothes = cursor.fetchall()
+    conexion_db.close()
+    return clothes
+
 def search_clothes(search):
     conexion_db= conexion()
     clothes = []
@@ -19,11 +28,11 @@ def search_clothes(search):
         conexion_db.close()
     return clothes
 
-def insert_clothe(name, brand, price, image, url):
+def insert_clothe(name, brand, price, image, url, user_id):
     conexion_db = conexion()
     with conexion_db.cursor() as cursor:
-        cursor.execute("INSERT INTO clothes(nombre, marca, precio, imagen, url) VALUES (%s, %s, %s, %s, %s)",
-                       (name, brand, price, image, url))
+        cursor.execute("INSERT INTO clothes(nombre, marca, precio, imagen, url, user_id) VALUES (%s, %s, %s, %s, %s, %s)",
+                       (name, brand, price, image, url, user_id))
     conexion_db.commit()
     conexion_db.close()
 
@@ -48,7 +57,7 @@ def delete_image_directory(id):
     conexion_db.close()
 
 def update_clothe(id, name, brand, price, image, url):
-    delete_image_directory(id)
+    # delete_image_directory(id)
     conexion_db = conexion()
     with conexion_db.cursor() as cursor:
         cursor.execute("UPDATE clothes SET nombre=%s, marca=%s, precio=%s, imagen=%s, url=%s WHERE id=%s",
@@ -61,8 +70,7 @@ def login_authentication(user, password):
     with conexion_db.cursor() as cursor:
         cursor.execute("SELECT user, password FROM users WHERE user=%s AND password=%s", (user,password))
         user_data = cursor.fetchone()
-        #print('Datos del formulario'+ user, password)
-        #print('Datos de bd' + str(user_data))
+
         valor = str(user_data)
         if  valor == 'None':
             access = False
@@ -70,3 +78,45 @@ def login_authentication(user, password):
             access = True
         
     return access
+
+def register_user(user, password):
+    conexion_db = conexion()
+    with conexion_db.cursor() as cursor:
+        cursor.execute("INSERT INTO users(user, password) VALUES (%s, %s)",
+                       (user, password))
+    conexion_db.commit()
+    conexion_db.close()
+
+def delete_user(id):
+    conexion_db = conexion()
+    with conexion_db.cursor() as cursor:
+        cursor.execute("DELETE FROM users where id = %s", (id))
+    conexion_db.commit()
+    conexion_db.close()
+
+def query_id_user(user):
+    conexion_db= conexion()
+    with conexion_db.cursor() as cursor:
+        cursor.execute("SELECT id FROM users where user like %s", (user))
+        id = cursor.fetchone()
+    conexion_db.close()
+    return id
+
+def query_user(id):
+    conexion_db= conexion()
+    with conexion_db.cursor() as cursor:
+        cursor.execute("SELECT user FROM users where id= %s", (id))
+        user = cursor.fetchone()
+    conexion_db.close()
+    return user
+
+def check_user_existence(user):
+    conexion_db= conexion()
+    with conexion_db.cursor() as cursor:
+        cursor.execute("SELECT user FROM users where user like %s", (user))
+        cUser = cursor.fetchone()
+    conexion_db.close()
+    if cUser is None:
+        return False
+    elif len(cUser) > 0:
+        return True

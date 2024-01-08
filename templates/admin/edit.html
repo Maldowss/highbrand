@@ -1,38 +1,45 @@
 {% include 'admin/header.html' %}
 
-<div class="container mt-5" style="min-height: 63.9vh;">
+<div class="container mt-5">
     <div class="col-md-12">
         <div class="card">
-            <p><strong> Prenda con ID: {{ ID }} </strong></p>
+            <p><strong> Prenda con ID: {{ info[0] }} </strong></p> 
             <div class="card-body">
                 <form action="/admin/edit/actualizar" method="post" enctype="multipart/form-data">
-                    <input type="hidden" value="{{ID}}" name="txtID" id="txtID">
+                    <input type="hidden" value="{{info[0]}}" name="txtID" id="txtID">
                     <div class="mb-3 text-center">
                         <label for="txtName" class="form-label">Nombre de la prenda:</label>
-                        <input type="text"
+                        <input type="text" value="{{info[1]}}"
                         class="form-control" name="txtName" id="txtName" aria-describedby="helpId" placeholder="Escribe el nombre...">
                     </div>
                     <div class="mb-3 text-center">
                         <label for="txtBrand" class="form-label">Marca de la prenda:</label>
-                        <input type="text"
+                        <input type="text" value="{{info[2]}}"
                             class="form-control" name="txtBrand" id="txtBrand" aria-describedby="helpId" placeholder="Escribe la marca...">
                     </div>
                     <div class="mb-3 text-center">
                         <label for="txtPrice" class="form-label">Precio de la prenda:</label>
-                        <input type="text"
+                        <input type="text" value="{{info[3]}}"
                             class="form-control" name="txtPrice" id="txtPrice" aria-describedby="helpId" placeholder="Escribe el precio...">
                     </div>
                     <div class="mb-3 text-center">
                         <label for="txtImage" class="form-label">Imagen:</label>
-                        <input type="file"
+                        <div><img width="80" src="/img/{{info[4]}}" class="img-fluid" alt=""></div>
+                        <input type="file" 
                             class="form-control" name="txtImage" id="txtImage" aria-describedby="helpId" placeholder="Sube una imagen...">
+                                
                     </div>
                     <div class="mb-3 text-center">
                         <label for="txtURL" class="form-label">URL:</label>
-                        <input type="text"
+                        <input type="text" value="{{info[5]}}"
                             class="form-control" name="txtURL" id="txtURL" aria-describedby="helpId" placeholder="Escribre la URL...">
                     </div>
 
+                    <input type="hidden" value="{{info[1]}}" name="txtNameOld" id="txtNameOld">
+                    <input type="hidden" value="{{info[2]}}" name="txtBrandOld" id="txtBrandOld">
+                    <input type="hidden" value="{{info[3]}}" name="txtPriceOld" id="txtPriceOld">
+                    <input type="hidden" value="{{info[4]}}" name="txtImageOld" id="txtImageOld">
+                    <input type="hidden" value="{{info[5]}}" name="txtUrlOld" id="txtUrlOld">                                        
                     <button type="submit" class="btn btn-success">Actualizar</button>
 
                 </form>

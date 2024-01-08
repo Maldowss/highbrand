@@ -6,24 +6,9 @@
     <title>Exposición de Ropa de Lujo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <link rel="stylesheet" href="webStyle.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/webstyle.css')}}" >
     <style>
-        .section {
-            padding: 80px 0;
-        }
-        .about-us {
-            background-color: #ffffff;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-        }
-        .contact-info {
-            list-style-type: none;
-            padding: 0;
-        }
-        .contact-info li {
-            margin-bottom: 10px;
-        }
+        
     </style>
 </head>
 <body style="background-image: url('/img/fondo.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
@@ -49,44 +34,50 @@
             <img src="/img/20231346_ShacoSF.jpeg" class="img-fluid rounded" alt="Ropa de Lujo">
         </div>
         <div class="col-lg-6">
-            <div class="about-us" style="background-color: #1f2225; opacity: 0.9;">
+            <div class="about-us">
                 <h2>Acerca de Nosotros</h2>
                 <p>Somos una marca dedicada a ofrecer ropa de lujo que refleje elegancia y estilo. Cada pieza es cuidadosamente seleccionada para garantizar la máxima calidad y exclusividad.</p>
                 <ul class="contact-info">
                     <li><strong>Dirección:</strong> Calle de la Elegancia, Ciudad de la Moda</li>
                     <li><strong>Teléfono:</strong> (123) 456-7890</li>
-                    <li><strong>Correo Electrónico:</strong> info@ropadelujo.com</li>
+                    <li><strong>Correo Electrónico:</strong> info@highbrand.com</li>
                 </ul>
             </div>
         </div>
     </div>
 </div>
     
-<div class="container-fluid section text-white" style="background-color: #1f2225; opacity: 0.9; border-radius: 3rem;">
+<div class="container-fluid section text-white p-3 w-75 bopcy">
     <h2 class="text-center mb-4">Marcas Colaboradoras</h2>
     <div class="row">
         <div class="col-md-4 mb-4">
-            <img src="/img/Prada.jpeg" class="img-fluid rounded" alt="Patrocinador 1">
+            <a href="https://www.prada.com">
+                <img src="/img/Prada.jpeg" class="img-fluid rounded" alt="Patrocinador 1">
+            </a>
         </div>
         <div class="col-md-4 mb-4">
-            <img src="/img/dior.jpg" class="img-fluid rounded" alt="Patrocinador 2">
+            <a href="https://www.dior.com/">
+                <img src="/img/dior.jpg" class="img-fluid rounded" alt="Patrocinador 2">
+            </a>
         </div>
         <div class="col-md-4 mb-4">
-            <img src="/img/ysl.jpg" class="img-fluid rounded" alt="Patrocinador 3">
+            <a href="https://www.ysl.com/">
+                <img src="/img/ysl.jpg" class="img-fluid rounded" alt="Patrocinador 3">
+            </a>
         </div>
     </div>
 </div>
 
-<section class="text-white py-5 mt-5" style="background-color: #1f2225; opacity: 0.9; border-radius: 3rem;">
-    <div class="container">
+<section class="text-white py-5 mt-5 w-75 m-auto bopcy">
+    <div class="container ">
         <h2 class="text-center mb-4">Lo que opinan nuestros clientes</h2>
         <div class="row">
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
                         <blockquote class="blockquote mb-0">
-                            <p>"¡Increíble calidad y atención al cliente! Estoy muy satisfecha con mi compra."</p>
-                            <footer class="blockquote-footer">David Maldonado</footer>
+                            <p>"¡Increíble calidad y atención al cliente! Estoy muy satisfecho con mi compra."</p>
+                            <footer class="blockquote-footer">Carlos González</footer>
                         </blockquote>
                     </div>
                 </div>

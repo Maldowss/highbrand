@@ -12,15 +12,17 @@
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <!-- CSS propio -->
+  <link  rel="stylesheet" href="{{ url_for('static', filename='css/adminstyle.css')}}" >
 
 </head>
 
-<body style="background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));">
-
-  <nav class="navbar navbar-expand navbar-dark bg-dark py-4 d-flex justify-content-center">
+<body class="body-admin">
+  <nav class="navbar navbar-expand navbar-dark py-4 d-flex justify-content-center nav-admin">
     <div class="nav navbar-nav">
         <a class="nav-item nav-link active" href="/admin/" aria-current="page">Home</a>
         <a class="nav-item nav-link" href="clothes">Administration</a>
+        <a class="nav-item nav-link" href="/admin/register">Register</a>
         <a class="nav-item nav-link" href="/admin/logout">Log Out</a>
         <a class="nav-item nav-link" href="/">Web</a>
     </div>
