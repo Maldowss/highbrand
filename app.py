@@ -19,7 +19,10 @@ app.secret_key="develoteca"
 #Esto nos permite el acceso a las diferentes rutas .html
 @app.route('/')
 def home():
-    return render_template('web/index.html')
+    if not session.get('login'):
+        return render_template("web/index.html", sesion="Log in")
+    else:
+        return render_template('web/index.html', sesion="Mi perfil")
 
 @app.route('/img/<image>')
 def images(image):
@@ -27,35 +30,118 @@ def images(image):
 
 @app.route('/clothes')
 def clothes():
+    if not session.get('login'):
+        sesion="Log in"
+    else:
+        return redirect('/clothes/userview')
+        
+
     clothes = clothes_controller.query_clothes()
-    # print(clothes)
+    
     users = []
+    favorites = []
     for clothe in clothes:
         users.append(clothes_controller.query_user(clothe[6])) 
-
+        favorites.append(None)
     # print(users)
-    combined_data = list(zip(clothes, users))
+    combined_data = list(zip(clothes, users, favorites))
+    message = "Sin resultados" if len(clothes) == 0 else str(len(clothes))+' resultados encontrados:'
 
-    return render_template('web/clothes.html', combined_data=combined_data)
+    return render_template('web/clothes.html', combined_data=combined_data, sesion=sesion, message=message, id=None)
+
+@app.route('/clothes/userview')
+def user_view_clothes():
+    sesion="Mi perfil"
+
+    clothes = clothes_controller.query_clothes()
+    
+    users = []
+    favorites = []
+    for clothe in clothes:
+        users.append(clothes_controller.query_user(clothe[6])) 
+        favorites.append(clothes_controller.check_favorites(session['id_user'], clothe[0]))
+
+    print(favorites)
+    combined_data = list(zip(clothes, users, favorites))
+    message = "Sin resultados" if len(clothes) == 0 else str(len(clothes))+' resultados encontrados:'
+    return render_template('web/clothes.html', combined_data=combined_data, sesion=sesion, message=message, id=session['id_user'])
 
 @app.route('/clothes/buscar', methods=['POST'])
 def search_clothes():
     search = request.form['txtSearch']
-    clothes = clothes_controller.search_clothes(search)
     users = []
-    for clothe in clothes:
-        users.append(clothes_controller.query_user(clothe[6])) 
+    favorites = []
+    clothes = clothes_controller.search_clothes(search)
+    if not session.get('login'):
+        sesion="Log in"
+        id=None
+        for clothe in clothes:
+            users.append(clothes_controller.query_user(clothe[6])) 
+            favorites.append(None)
+    else:
+        sesion="Mi perfil"
+        id=session['id_user']
+        for clothe in clothes:
+            users.append(clothes_controller.query_user(clothe[6])) 
+            favorites.append(clothes_controller.check_favorites(session['id_user'], clothe[0]))
 
-    # print(users)
-    combined_data = list(zip(clothes, users))
+    combined_data = list(zip(clothes, users, favorites))
     message = "Sin resultados" if len(clothes) == 0 else str(len(clothes))+' resultados encontrados:'
-    return render_template('web/clothes.html', combined_data=combined_data, message=message)
+    return render_template('web/clothes.html', combined_data=combined_data, message=message, sesion=sesion, id=id)
+
+@app.route('/logforfav')
+def log_for_fav():
+    return render_template("admin/login.html", message="inicia sesion para favoritos")
+
+@app.route('/addFavorite', methods=['POST'])
+def admin_add_favorite():
+
+    _user_id=request.form['id_user']
+    _clothe_id=request.form['id_clothe']
+    _name=request.form['name']
+    _brand=request.form['brand']
+    _price=request.form['price']
+    _image=request.form['image']
+    _url=request.form['url']
+    
+    print(_user_id)
+    clothes_controller.add_favorite(_user_id, _clothe_id, _name, _brand, _price, _image, _url)
+    return "Success"
+
+@app.route('/deleteFavorite', methods=['POST'])
+def  admin_delete_favorite():
+    _user_id=request.form['id_user']
+    _clothe_id=request.form['id_clothe']
+
+    clothes_controller.delete_favorite(_user_id, _clothe_id)
+
+    return "success"
+
+@app.route('/admin/info/deleteFavoriteUser', methods=['POST'])
+def delete_favorite_userInfo():
+    _user_id=request.form['id_user']
+    _clothe_id=request.form['id_clothe']
+    print(session['id_user'])
+    clothes_controller.delete_favorite(_user_id, _clothe_id)
+
+    return "success"
 
 @app.route('/info')
 def info():
-    comments=clothes_controller.query_comments()#preguntar a chat gpt como pillar 4 valores random del array
 
-    return render_template('web/info.html', comments=comments)
+    if not session.get('login'):
+        sesion="Log in"
+    else:
+        sesion="Mi perfil"
+    comments=clothes_controller.query_comments()
+
+    if len(comments) > 4:
+        last_four_comments = comments[-4:]
+    else:
+        last_four_comments=comments
+
+
+    return render_template('web/info.html', comments=last_four_comments, sesion=sesion)
 
 @app.route('/info/comentar', methods=['POST'])
 def comment():
@@ -66,7 +152,7 @@ def comment():
     
     clothes_controller.insert_comment(session['user'], text, session['id_user'])
     
-    return render_template('web/info.html')
+    return redirect('/info')
 
 
 @app.route('/admin/')
@@ -75,21 +161,6 @@ def admin_index():
         return redirect("/admin/login")
     
     return render_template('admin/index.html')
-
-# @app.route('/admin/edit', methods=['POST'])
-# def admin_edit():
-#     if not session.get('login'):
-#         return redirect("/admin/login")
-    
-#     info_clothe = []
-#     info_clothe.append(request.form['txtID'])
-#     info_clothe.append(request.form['txtName'])
-#     info_clothe.append(request.form['txtBrand'])
-#     info_clothe.append(request.form['txtPrice'])
-#     info_clothe.append(request.form['txtImage'])
-#     info_clothe.append(request.form['txtUrl'])
-    
-#     return render_template("admin/edit.html", info=info_clothe)
 
 @app.route('/admin/edit', methods=['POST'])
 def admin_edit():
@@ -133,7 +204,12 @@ def admin_edit_update():
             newName=actualHour+"_"+request.files['txtImage'].filename
             request.files['txtImage'].save("templates/web/img/"+newName)
 
-    clothes_controller.update_clothe(_id, _name, _brand, _price, newName, _url)
+    if newName == _oldImage:
+        condition = False
+    else:
+        condition = True
+
+    clothes_controller.update_clothe(_id, _name, _brand, _price, newName, _url, condition)
 
     return redirect('/admin/clothes')
 
@@ -262,27 +338,35 @@ def admmin_info():
     if not session.get('login'):
         return redirect("/admin/login")
     
+    clothes = clothes_controller.query_clothes_favorites(session['id_user'])
+    
+    users = []
+    for clothe in clothes:
+        users.append(clothes_controller.query_user(clothe[1])) 
+
+    # print(users)
+    combined_data = list(zip(clothes, users))
     
     user_info=clothes_controller.query_info_user(session['id_user'])
    
-    return render_template('/admin/userInfo.html', info=user_info)
+    return render_template('/admin/userInfo.html', info=user_info, combined_data=combined_data)
 
-@app.route('/admin/info/user_info')
+@app.route('/admin/info/user_info', methods=['POST'])
 def update_user_info():
     if not session.get('login'):
         return redirect("/admin/login")
     
-    _oldName=request.form['name']
-    _oldLast_name=request.form['last_name']
-    _oldEmail=request.form['email']
-    _oldTlf=request.form['tlf']
+    _oldName=request.form['nameOld']
+    _oldLast_name=request.form['last_nameOld']
+    _oldEmail=request.form['emailOld']
+    _oldTlf=request.form['tlfOld']
     
     _name=request.form['name'] if request.form['name'] else _oldName
     _last_name=request.form['last_name'] if request.form['last_name'] else _oldLast_name
     _email=request.form['email'] if request.form['email'] else _oldEmail
     _tlf=request.form['tlf'] if request.form['tlf'] else _oldTlf
 
-    clothes_controller.update_user_info()
+    clothes_controller.update_user_info(_name, _last_name, _email, _tlf, session['id_user'])
     
     return redirect('/admin/info')
 

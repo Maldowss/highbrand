@@ -21,16 +21,42 @@
           </form>
         </div>
         <div class="row">
-            {% for clothe, user in combined_data %}
+            {% for clothe, user, favorite in combined_data %}
             <div class="col-md-3 mt-3">
                 <div class="card">
                     <img src="/img/{{ clothe[4] }}" alt="Title" class="card-img-top">
                     <div class="card-body">
                         <h3 class="card-title">{{ clothe[1] }}</h3>
                         <p class="card-text">Marca: {{clothe[2]}} </p><p class="card_text">Precio: {{ clothe[3] }}€</p>
-                        <p class="card-text">
-                            <a id="" class="btn btn-primary" href="{{ clothe[5] }}" role="button">URL</a>
-                        </p>
+                        <div class="row ">
+                            <div class="col-lg-6">
+                                <p class="card-text">
+                                    <a id="" class="btn btn-primary" href="{{ clothe[5] }}" role="button">URL</a>
+                                </p>
+                            </div>                          
+                            <div class="col-lg-6">
+                                <input type="hidden" class="user_id{{clothe[0]}}" id="{{id}}">
+                                <input type="hidden" class="clothe_id{{clothe[0]}}" id="{{clothe[0]}}">
+                                <input type="hidden" class="name{{clothe[0]}}" id="{{clothe[1]}}">
+                                <input type="hidden" class="brand{{clothe[0]}}" id="{{clothe[2]}}">
+                                <input type="hidden" class="price{{clothe[0]}}" id="{{clothe[3]}}">
+                                <input type="hidden" class="image{{clothe[0]}}" id="{{clothe[4]}}">
+                                <input type="hidden" class="url{{clothe[0]}}" id="{{clothe[5]}}">
+                                <p class="card-text text-center">
+                                    {%if sesion == "Log in"%}
+                                        <a id="action{{clothe[0]}}" class="btn btn-success" role="button" href="/logforfav">Favoritos</a>
+                                    {%elif sesion == "Mi perfil"%}
+                                        {%if favorite == False %}
+                                            <a id="action{{clothe[0]}}" class="btn btn-success" role="button" onclick="addFavorite('{{clothe[0]}}')">Favoritos</a>
+                                        {%elif favorite == True%}
+                                            <a id="action{{clothe[0]}}" class="btn btn-danger" role="button" onclick="deleteFavorite('{{clothe[0]}}')">Eliminar</a>
+                                        {% endif %}
+                                    {% endif %}
+                                </p>
+                                
+                            </div>
+                        </div>
+                       
                         <p class="card-text">Usuario: {{ user[0]}}</p>
                     </div>
                 </div>

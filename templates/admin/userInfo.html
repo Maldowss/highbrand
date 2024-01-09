@@ -15,7 +15,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- CSS propio -->
   <link  rel="stylesheet" href="{{ url_for('static', filename='css/adminstyle.css')}}" >
-
+  <script href="{{ url_for('static', filename='myFunctions.js') }}"></script>
 </head>
 
 
@@ -26,86 +26,102 @@
     <nav class="navbar navbar-expand navbar-dark py-4 d-flex justify-content-center nav-admin">
         <div class="nav navbar-nav">
             <a class="nav-item nav-link active" href="/" aria-current="page">Home</a>
-            <a class="nav-item nav-link" href="clothes">Administration</a>
-            <a class="nav-item nav-link" href="/admin/info">User info</a>
+            <a class="nav-item nav-link" href="clothes">Administración</a>
+            <a class="nav-item nav-link" href="/admin/info">Info Usuario</a>
             <a class="nav-item nav-link" href="/admin/logout">Log Out</a>
+            <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Web
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="/">Inicio</a></li>
+                    <li><a class="dropdown-item" href="/clothes">Prendas</a></li>
+                    <li><a class="dropdown-item" href="/info">Sobre nosotros</a></li>
+                </ul>
+            </div>
         </div>
-        </nav>
+    </nav>
 
     <div class="row mt-5 row-user-info">
         <!-- Sección de datos anteriores -->
         <div class="container mt-0 previous-data-container-info col-lg-4">
             <h2 class="form-title-info text-white">Datos de {{info[1]}}: </h2>
-            <p><strong>Name:</strong> {{info[2]}}</p>
-            <p><strong>Last Name:</strong> {{info[3]}}</p>
+            <p><strong>Nombre:</strong> {{info[2]}}</p>
+            <p><strong>Apellidos:</strong> {{info[3]}}</p>
             <p><strong>Email:</strong> {{info[4]}}</p>
-            <p><strong>Phone Number:</strong> {{info[5]}}</p>
-            <div class="position-relative"><a class="position-absolute start-0  fw-bold" href="/admin/daccount">Delete Account</a></div>
+            <p><strong>Tlf:</strong> {{info[5]}}</p>
+            <div class="position-relative"><a class="position-absolute start-0  fw-bold" href="/admin/daccount">Borrar cuenta</a></div>
         </div>
 
         <div class="container mt-0 form-container-info col-lg-8">
-            <h2 class="form-title-info-info">Complete Your Profile</h2>
-            <form>
+            <h2 class="form-title-info-info">Completa tu perfil</h2>
+            <form action="/admin/info/user_info" method="POST">
                 <div class="form-group-info">
-                    <label for="name" class="form-label-info">Name</label>
-                    <input type="text" class="form-control-info" id="name" name="name" value="{{info[2]}}" required>
+                    <label for="name" class="form-label-info">Nombre</label>
+                    <input type="text" class="form-control-info" id="name" name="name" value="{{info[2]}}">
                 </div>
 
                 <div class="form-group-info">
-                    <label for="last_name" class="form-label-info">Last Name</label>
-                    <input type="text" class="form-control-info" id="last_name" name="last_name" value="{{info[3]}}" required>
+                    <label for="last_name" class="form-label-info">Apellidos</label>
+                    <input type="text" class="form-control-info" id="last_name" name="last_name" value="{{info[3]}}">
                 </div>
 
                 <div class="form-group-info">
                     <label for="email" class="form-label-info">Email</label>
-                    <input type="email" class="form-control-info" id="email" name="email" value="{{info[4]}}" required>
+                    <input type="email" class="form-control-info" id="email" name="email" value="{{info[4]}}">
                 </div>
 
                 <div class="form-group-info">
-                    <label for="tlf" class="form-label-info">Phone Number</label>
-                    <input type="tel" class="form-control-info" id="tlf" name="tlf" value="{{info[5]}}" required>
+                    <label for="tlf" class="form-label-info">Tlf.</label>
+                    <input type="tel" class="form-control-info" id="tlf" name="tlf" value="{{info[5]}}">
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-submit-info">Save Profile</button>
+                <input type="hidden" value="{{info[2]}}" name="nameOld" id="nameOld">
+                <input type="hidden" value="{{info[3]}}" name="last_nameOld" id="last_nameOld">
+                <input type="hidden" value="{{info[4]}}" name="emailOld" id="emailOld">
+                <input type="hidden" value="{{info[5]}}" name="tlfOld" id="tlfOld">
+
+                <button type="submit" class="btn btn-primary btn-submit-info">Guardar Perfil</button>
             </form>
         </div>
     </div>
 
     <div class="row mt-5 row-user-info">
-        <h1 class="h3 mb-3 font-weight-normal text-center">Your things</h1>
-            <p class="text-center">Choose one to check your comments or your favorites clothes</p>
-        <div class="container col-md-3">
-            <form class="form-signin position-relative" action="/admin/">
-              
-              <button type="submit" class="btn btn-danger mb-2 position-absolute top-0 start-50 translate-middle">Comments</button>
-            </form>
-          </div>
-          <div class="container col-md-3 position-relative">
-          <form action="/admin/">
-            <button type="submit" class="btn btn-secondary mb-2 position-absolute top-0 start-50 translate-middle">Favorites</button>
-        </div>
-        </form>
+        <h1 class="h3 mb-3 font-weight-normal text-center">Tus favoritos</h1>
+            <p class="text-center">Aquí encontraras las prendas que diste favorito</p>
     </div>
 
 
-
-    <!-- <div class="row">
+<div class="container">
+    <div class="row">
         {% for clothe, user in combined_data %}
-        <div class="col-md-3 mt-3">
+        <div class="col-md-3 mt-3" id="drop{{clothe[2]}}">
             <div class="card">
-                <img src="/img/{{ clothe[4] }}" alt="Title" class="card-img-top">
+                <img src="/img/{{ clothe[6] }}" alt="Title" class="card-img-top">
                 <div class="card-body">
-                    <h3 class="card-title">{{ clothe[1] }}</h3>
-                    <p class="card-text">Marca: {{clothe[2]}} </p><p class="card_text">Precio: {{ clothe[3] }}€</p>
-                    <p class="card-text">
-                        <a id="" class="btn btn-primary" href="{{ clothe[5] }}" role="button">URL</a>
-                    </p>
+                    <h3 class="card-title">{{ clothe[3] }}</h3>
+                    <p class="card-text">Marca: {{clothe[4]}} </p><p class="card_text">Precio: {{ clothe[5] }}€</p>
+                    <div class="row ">
+                        <div class="col-lg-6">
+                            <p class="card-text">
+                                <a id="" class="btn btn-primary" href="{{ clothe[5] }}" role="button">URL</a>
+                            </p>
+                        </div>                          
+                        <div class="col-lg-6">
+                            <input type="hidden" class="user_id{{clothe[2]}}" id="{{clothe[1]}}">
+                            <input type="hidden" class="clothe_id{{clothe[2]}}" id="{{clothe[2]}}">
+                            <p class="card-text text-center">
+                                <a id="action{{clothe[2]}}" class="btn btn-danger" role="button" onclick="deleteFavoriteUser('{{clothe[2]}}')">Eliminar</a>
+                            </p>
+                        </div>
+                    </div>
                     <p class="card-text">Usuario: {{ user[0]}}</p>
                 </div>
             </div>
         </div>
         {% endfor %}
-    </div> -->
-    
+    </div>
+</div>
 
     {% include 'admin/footer.html' %}

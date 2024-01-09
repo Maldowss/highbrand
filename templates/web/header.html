@@ -17,12 +17,42 @@
 
 <body class="body-web">
 
-    <nav class="navbar navbar-expand py-4 navbar-dark d-flex justify-content-center nav-web">
-        <div class="nav navbar-nav ">
-            <a class="nav-item nav-link active" href="/" aria-current="page">Home</a>
-            <a class="nav-item nav-link" href="/clothes">Clothes</a>
-            <a class="nav-item nav-link" href="/info">About Us</a>
-            <a class="nav-item nav-link" href="/admin/login">Log in</a>
-        </div>
-    </nav>
+  <nav class="navbar navbar-expand py-4 navbar-dark d-flex justify-content-center nav-web">
+    <div class="nav navbar-nav">
+        <a class="nav-item nav-link active" href="/" aria-current="page">Home</a>
+        <a class="nav-item nav-link" href="/clothes">Clothes</a>
+        <a class="nav-item nav-link" href="/info">About Us</a>
+        {%if sesion== "Log in"%}
+
+        <div class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              {{sesion}}
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="/admin/login">Log In</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/admin/register">Register</a></li>
+          </ul>
+      </div>
+
+        {%else%}
+
+        <div class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              {{sesion}}
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="/admin/info">Perfil</a></li>
+              <li><a class="dropdown-item" href="/admin/login">Administración</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/admin/logout">Cerrar sesión</a></li>
+          </ul>
+      </div>
+
+        {%endif%}
+        
+    </div>
+  </nav>
     <div class="container mt-5 mb-auto container-web">
